@@ -41,7 +41,7 @@ function spawnMagma(worldSize, magmaBaseSize) {
     return {
         x: (Math.random() - 0.5) * worldSize * 1.5,
         z: (Math.random() - 0.5) * worldSize * 1.5,
-        radius: magmaBaseSize * (0.6 + Math.random() * 0.8)
+        radius: magmaBaseSize
     };
 }
 
@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
         const pelletCount = config.pelletCount !== undefined ? config.pelletCount : 50;
         const spikeCount = config.spikeCount !== undefined ? config.spikeCount : 15;
         const boostCount = config.boostCount !== undefined ? config.boostCount : 8;
-        const magmaCount = config.magmaCount !== undefined ? config.magmaCount : 0;
+        const magmaCount = config.magmaCount !== undefined ? config.magmaCount : 10;
         const magmaSize = config.magmaSize !== undefined ? config.magmaSize : 100;
         const baseImpactForce = config.baseImpactForce !== undefined ? config.baseImpactForce : 15;
         const conveyorForce = config.conveyorForce !== undefined ? config.conveyorForce : 0.5;
@@ -77,6 +77,7 @@ io.on('connection', (socket) => {
         const globalReverse = config.globalReverse || false;
         const boostForce = config.boostForce !== undefined ? config.boostForce : 45;
         const magmaBurn = config.magmaBurn !== undefined ? config.magmaBurn : 5;
+        const magmaSlowness = config.magmaSlowness !== undefined ? config.magmaSlowness : 0.4;
         const mapType = config.mapType || 'normal';
         
         // 依照設定決定光點數量
@@ -101,6 +102,7 @@ io.on('connection', (socket) => {
             globalReverse: globalReverse,
             boostForce: boostForce,
             magmaBurn: magmaBurn,
+            magmaSlowness: magmaSlowness,
             currentConveyorDirIndex: 0,
             lastConveyorSwitchTime: Date.now()
         };
@@ -272,7 +274,8 @@ setInterval(() => {
             let dashCost = 0.05 + sizeFactor * 0.0026;
 
             let speed = isDashing ? baseSpeed * dashMult : baseSpeed;
-            if (p.inMagma) speed *= 0.4;
+            let slownessRatio = room.magmaSlowness !== undefined ? room.magmaSlowness : 0.4;
+            if (p.inMagma) speed *= (1 - slownessRatio);
 
             if (isDashing) {
                 p.radius -= dashCost; 
