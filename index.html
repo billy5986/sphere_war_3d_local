@@ -948,8 +948,8 @@
             </select>
 
             <div class="conveyor-setting-group" style="display: none;">
-                <div class="control-label"><span>輸送帶推力</span><span id="mp-conveyor-force-val">0.5</span></div>
-                <input type="range" id="mp-conveyor-force-slider" min="0.1" max="5.0" step="0.1" value="0.5">
+                <div class="control-label"><span>輸送帶推力</span><span id="mp-conveyor-force-val">2.5</span></div>
+                <input type="range" id="mp-conveyor-force-slider" min="0.1" max="10.0" step="0.1" value="2.5">
 
                 <div class="control-label"><span>切換方向間隔 (秒)</span><span id="mp-conveyor-time-val">30</span></div>
                 <input type="range" id="mp-conveyor-time-slider" min="5" max="60" step="1" value="30">
@@ -1042,8 +1042,8 @@
             </select>
 
             <div class="conveyor-setting-group" style="display: none;">
-                <div class="control-label"><span>輸送帶推力</span><span id="conveyor-force-val">0.5</span></div>
-                <input type="range" id="conveyor-force-slider" min="0.1" max="5.0" step="0.1" value="0.5">
+                <div class="control-label"><span>輸送帶推力</span><span id="conveyor-force-val">2.5</span></div>
+                <input type="range" id="conveyor-force-slider" min="0.1" max="10.0" step="0.1" value="2.5">
 
                 <div class="control-label"><span>切換方向間隔 (秒)</span><span id="conveyor-time-val">30</span></div>
                 <input type="range" id="conveyor-time-slider" min="5" max="60" step="1" value="30">
@@ -1202,7 +1202,7 @@
         let lastConveyorSwitchTime = 0;
         let conveyorIsWarning = false;
         const CONVEYOR_CYCLE_MS = 30000;
-        const CONVEYOR_FORCE = 4.5;
+        const CONVEYOR_FORCE = 2.5;
 
         // --- Three.js 初始化 ---
         const canvas = document.getElementById('gameCanvas');
@@ -1389,7 +1389,7 @@
                 }
 
                 let dirObj = conveyorDirections[currentConveyorDirIndex];
-                let conveyorForce = localGameState.conveyorForce || 0.5;
+                let conveyorForce = localGameState.conveyorForce || 2.5;
                 currentConveyorForce.x = dirObj.x * conveyorForce;
                 currentConveyorForce.z = dirObj.z * conveyorForce;
             }
@@ -1983,7 +1983,7 @@
             localGameState.boostForce = parseInt(document.getElementById('boost-power-slider').value) || 45;
             localGameState.spikeDamage = !isNaN(parseInt(document.getElementById('spike-damage-slider').value)) ? parseInt(document.getElementById('spike-damage-slider').value) : 20;
             localGameState.globalReverse = document.getElementById('global-reverse-select').value === 'true';
-            localGameState.conveyorForce = parseFloat(document.getElementById('conveyor-force-slider').value) || 0.5;
+            localGameState.conveyorForce = parseFloat(document.getElementById('conveyor-force-slider').value) || 2.5;
             localGameState.conveyorSwitchTime = parseInt(document.getElementById('conveyor-time-slider').value) || 30;
             localGameState.iceFriction = parseFloat(document.getElementById('ice-friction-slider').value) || 0.97;
             localGameState.magmaSlowness = parseFloat(document.getElementById('magma-slowness-slider').value) / 100 || 0.4;
